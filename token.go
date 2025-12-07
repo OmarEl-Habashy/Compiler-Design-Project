@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 type TokenType string
 
 const (
@@ -13,4 +15,8 @@ const (
 type Token struct {
 	Type  TokenType
 	Value string
+}
+
+func (t Token) String() string {
+	return fmt.Sprintf("Token(%s, '%s')", t.Type, t.Value)
 }
