@@ -379,3 +379,10 @@ Token(SPECIAL_SYMBOL, ';')
 - Nariman Adel
 - Ahmed Morsy
 
+## 📄 License
+
+This project is for educational purposes as part of a Systems Programming course.
+
+---
+
+**Note**: This is a simplified compiler for educational purposes. It demonstrates core compiler concepts but is not production-ready.
