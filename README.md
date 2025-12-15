@@ -376,6 +376,8 @@ Token(SPECIAL_SYMBOL, ';')
 ## 👥 Contributors
 
 - Omar El-Habashy
+- Nariman Adel
+- Ahmed Morsy
 
 ## 📄 License
 
