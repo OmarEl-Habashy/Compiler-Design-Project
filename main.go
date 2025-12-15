@@ -27,38 +27,36 @@ func main() {
 		fmt.Println(t)
 	}
 
-
-	
 	fmt.Println("--------------------------------")
-    
-    parser := NewParser(tokenList)
-    stmt := parser.ParseIfStatement()
 
-    // Check for parser errors
-    if len(parser.Errors()) > 0 {
-        fmt.Println("\n PARSER ERRORS:")
-        for _, err := range parser.Errors() {
-            fmt.Println("  Error:", err)
-        }
-        return
-    }
-    fmt.Println("\n Parse Tree (Abstract Syntax Tree):")
-	
-    fmt.Println(GetParseTreeJSON(stmt))
+	parser := NewParser(tokenList)
+	stmt := parser.ParseIfStatement()
+
+	// Check for parser errors
+	if len(parser.Errors()) > 0 {
+		fmt.Println("\n PARSER ERRORS:")
+		for _, err := range parser.Errors() {
+			fmt.Println("  Error:", err)
+		}
+		return
+	}
+	fmt.Println("\n Parse Tree (Abstract Syntax Tree):")
+
+	fmt.Println(GetParseTreeJSON(stmt))
 	// -----------------
-// Semantic Analysis
-// -----------------
-sem := NewSemanticAnalyzer()
-semTree := sem.Analyze(stmt)
+	// Semantic Analysis
+	// -----------------
+	sem := NewSemanticAnalyzer()
+	semTree := sem.Analyze(stmt)
 
-if len(sem.Errors()) > 0 {
-    fmt.Println("\n SEMANTIC MESSAGES:")
-    for _, e := range sem.Errors() {
-        fmt.Println("  ", e)
-    }
-}
+	if len(sem.Errors()) > 0 {
+		fmt.Println("\n SEMANTIC MESSAGES:")
+		for _, e := range sem.Errors() {
+			fmt.Println("  ", e)
+		}
+	}
 
-fmt.Println("\n Semantic Tree:")
-fmt.Println(GetSemanticTreeJSON(semTree))
+	fmt.Println("\n Semantic Tree:")
+	fmt.Println(GetSemanticTreeJSON(semTree))
 
 }
