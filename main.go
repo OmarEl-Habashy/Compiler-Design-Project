@@ -45,4 +45,20 @@ func main() {
     fmt.Println("\n Parse Tree (Abstract Syntax Tree):")
 	
     fmt.Println(GetParseTreeJSON(stmt))
+	// -----------------
+// Semantic Analysis
+// -----------------
+sem := NewSemanticAnalyzer()
+semTree := sem.Analyze(stmt)
+
+if len(sem.Errors()) > 0 {
+    fmt.Println("\n SEMANTIC MESSAGES:")
+    for _, e := range sem.Errors() {
+        fmt.Println("  ", e)
+    }
+}
+
+fmt.Println("\n Semantic Tree:")
+fmt.Println(GetSemanticTreeJSON(semTree))
+
 }
