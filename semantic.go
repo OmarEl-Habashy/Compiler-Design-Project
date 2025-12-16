@@ -62,9 +62,13 @@ func (s *SemanticAnalyzer) semStmt(st Statement) *SemanticNode {
 
 		// define variable on first assignment
 		if rhs.InferredType != "unknown" {
-			if old, ok := s.symbols[n.Name]; ok && old != rhs.InferredType {
-				s.msg = append(s.msg,
-					fmt.Sprintf("semantic error: type mismatch for '%s' (was %s, now %s)", n.Name, old, rhs.InferredType))
+			if old, ok := s.symbols[n.Name]; ok {
+				if old != rhs.InferredType {
+					// ERROR: Don't allow type changes
+					s.msg = append(s.msg,
+						fmt.Sprintf("semantic error: cannot change type of '%s' from %s to %s",
+							n.Name, old, rhs.InferredType))
+				}
 			} else {
 				s.symbols[n.Name] = rhs.InferredType
 			}

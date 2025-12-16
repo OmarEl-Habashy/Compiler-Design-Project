@@ -257,10 +257,27 @@ func (p *Parser) parseAssignmentStatement() *AssignmentStatement {
 		return nil
 	}
 	p.next()
+
+	// Parse the right-hand side value
 	stmt.Value = p.parsePrimary()
 	if stmt.Value == nil {
 		return nil
 	}
+
+	// Check for illegal ++ or -- after the value
+	if p.currentToken().Type == OPERATOR && (p.currentToken().Value == "++" || p.currentToken().Value == "--") {
+		if _, isLiteral := stmt.Value.(*NumberLiteral); isLiteral {
+			p.errors = append(p.errors,
+				fmt.Sprintf("syntax error: '%s' operator cannot be applied to a literal value", p.currentToken().Value))
+			return nil
+		}
+		// Even for variables, postfix ++ in assignments like "x = y++" is complex
+		p.errors = append(p.errors,
+			fmt.Sprintf("syntax error: unsupported operator '%s' in assignment", p.currentToken().Value))
+		return nil
+	}
+
+	// Expect semicolon
 	if p.currentToken().Value != ";" {
 		p.errors = append(p.errors,
 			fmt.Sprintf("expected ';' after assignment '%s = ...'", stmt.Name))

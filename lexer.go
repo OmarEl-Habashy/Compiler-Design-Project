@@ -14,7 +14,7 @@ var rules = []Rule{
 	{KEYWORD, regexp.MustCompile(`^\b(if|else|while|for|int|double|return)\b`)},
 	{CONSTANT, regexp.MustCompile(`^\d+(\.\d*)?`)},
 	{IDENTIFIER, regexp.MustCompile(`^[a-zA-Z_]\w*`)},
-	{OPERATOR, regexp.MustCompile(`^([><=!]=?)`)}, // '?' is a Quantifier that means "ZERO or One of the previous characters, you could have [">=", ">", "==", "=", "<=", "<", "!"]"
+	{OPERATOR, regexp.MustCompile(`^(\+\+|--|[><=!]=?|\+|\-|\*|/)`)}, // '?' is a Quantifier that means "ZERO or One of the previous characters, you could have [">=", ">", "==", "=", "<=", "<", "!"]"
 	{SPECIAL_SYMBOL, regexp.MustCompile(`^[(){};]`)},
 }
 

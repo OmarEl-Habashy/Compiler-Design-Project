@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"strings"
 )
 
 func main() {
@@ -55,6 +56,19 @@ func main() {
 		for _, e := range sem.Errors() {
 			fmt.Println("  ", e)
 		}
+
+		hasErrors := false
+		for _, msg := range sem.Errors() {
+			if strings.Contains(msg, "semantic error:") {
+				hasErrors = true
+				break
+			}
+		}
+
+		if hasErrors {
+			fmt.Println("\n❌ Code generation aborted due to semantic errors.")
+			return
+		}
 	}
 
 	fmt.Println("\n Semantic Tree:")
@@ -72,7 +86,6 @@ func main() {
 
 	fmt.Println(asmCode)
 
-	// Write to file
 	err = os.WriteFile("output.asm", []byte(asmCode), 0644)
 	if err != nil {
 		fmt.Println("Error writing assembly file:", err)
