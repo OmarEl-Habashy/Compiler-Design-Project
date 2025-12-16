@@ -60,4 +60,23 @@ func main() {
 	fmt.Println("\n Semantic Tree:")
 	fmt.Println(GetSemanticTreeJSON(semTree))
 
+	// -----------------
+	// Code Generation
+	// -----------------
+	fmt.Println("\n--------------------------------")
+	fmt.Println("GENERATED ASSEMBLY CODE:")
+	fmt.Println("--------------------------------")
+
+	codegen := NewCodeGenerator()
+	asmCode := codegen.Generate(stmt)
+
+	fmt.Println(asmCode)
+
+	// Write to file
+	err = os.WriteFile("output.asm", []byte(asmCode), 0644)
+	if err != nil {
+		fmt.Println("Error writing assembly file:", err)
+	} else {
+		fmt.Println("\n✓ Assembly code written to output.asm")
+	}
 }
