@@ -30,7 +30,8 @@ func main() {
 	fmt.Println("--------------------------------")
 
 	parser := NewParser(tokenList)
-	stmt := parser.ParseIfStatement()
+	stmt := parser.ParseProgram()
+	// stmt := parser.ParseIfStatement()
 
 	// Check for parser errors
 	if len(parser.Errors()) > 0 {

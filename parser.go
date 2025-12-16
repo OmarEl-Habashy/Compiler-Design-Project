@@ -18,6 +18,39 @@ func NewParser(tokens []Token) *Parser {
 	}
 }
 
+func (p *Parser) ParseProgram() *BlockStatement {
+	program := &BlockStatement{Statements: []Statement{}}
+
+	for p.currentToken().Type != "EOF" {
+		var stmt Statement
+
+		// Check what kind of statement we have
+		if p.currentToken().Type == KEYWORD && p.currentToken().Value == "if" {
+			stmt = p.ParseIfStatement()
+		} else if p.currentToken().Type == IDENTIFIER {
+			// Check if it's an assignment
+			if p.pos+1 < len(p.tokens) && p.tokens[p.pos+1].Value == "=" {
+				stmt = p.parseAssignmentStatement()
+			} else {
+				stmt = p.parseExpressionStatement()
+			}
+		} else {
+			p.errors = append(p.errors,
+				fmt.Sprintf("unexpected token: %v (%s) at position %d",
+					p.currentToken().Type, p.currentToken().Value, p.pos))
+			p.next() // skip bad token
+			continue
+		}
+
+		if stmt == nil {
+			break
+		}
+		program.Statements = append(program.Statements, stmt)
+	}
+
+	return program
+}
+
 func (p *Parser) currentToken() Token {
 	if p.pos < len(p.tokens) {
 		return p.tokens[p.pos]
